@@ -1,0 +1,42 @@
+version: '2'
+
+services:
+  # Define our postgres service. We don't need any special stuff here, so we
+  # just use the Postgres 9.6 image that's out there.
+
+  postgres:
+    image: postgres:9.6
+
+    networks:
+      - appmesh     # We appear in the application mesh's network
+    expose:
+      - "5432"
+    # ports:
+    #   - "5432:5432"
+
+  # Define our user service. Here we need full control, so we build this
+  # container from a Dockefile.
+
+  usersvc:
+    build:
+      context: user-service
+      dockerfile: Dockerfile
+
+    environment:    # We use environment variables to find the user DB
+      - USER_DB_RESOURCE_HOST=postgres
+      - USER_DB_RESOURCE_PORT=5432
+
+    networks:
+      appmesh:      # We appear in the application mesh's network...
+        aliases:
+          - user    # ...aliased as "user".
+
+    expose:         # Expose port 5000 for Flask...
+      - "5000"
+
+    ports:          # ...and map it through to the host, too.
+      - "5000:5000"
+
+networks: 
+  # Finally, we define our application mesh's network.
+  appmesh: {}
