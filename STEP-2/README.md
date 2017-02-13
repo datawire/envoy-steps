@@ -60,7 +60,8 @@ $ curl $(docker-machine ip esteps):8000/user/health
   "msg": "user health check OK",
   "ok": true,
   "resolvedname": "172.19.0.2"
-}```
+}
+```
 
 Creating Some Users
 -------------------
