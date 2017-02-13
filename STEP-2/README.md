@@ -1,4 +1,4 @@
-STEP 1: Arrival of Envoy 
+STEP 2: Arrival of Envoy 
 =============================================
 
 Step 1 was all about getting Docker, Postgres, and Flask to work together. In Step 2, we're going to stick Envoy in front of everything, so it can manage scaling the front end. 
