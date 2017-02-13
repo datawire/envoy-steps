@@ -8,9 +8,9 @@ The Tools
 
 Tools we'll be using:
 
-1. [docker][https://www.docker.com/]
-2. [docker-compose][https://docs.docker.com/compose/]
-3. [envoy][https://lyft.github.io/envoy/]
+1. [docker](https://www.docker.com/)
+2. [docker-compose](https://docs.docker.com/compose/)
+3. [envoy](https://lyft.github.io/envoy/)
 
 You'll need to get `docker` and `docker-compose` installed (Mac users, see below). You do _not_ need to install `envoy` though! It will magically Just Happen as we build containers out.
 
