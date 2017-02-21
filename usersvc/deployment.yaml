@@ -15,12 +15,6 @@ spec:
       containers:
       - name: usersvc
         image: usersvc:step1      
-        env:
-        - name: USER_DB_RESOURCE_HOST
-          value: postgres
-        - name: USER_DB_RESOURCE_PORT
-          value: "5432"
-        name: usersvc
         resources: {}
       restartPolicy: Always
 status: {}

@@ -78,10 +78,17 @@ class RichStatus (object):
         return RichStatus(True, **kwargs)
 
 def get_db(database):
+    db_host = "postgres"
+    db_port = 5432
+
+    if "USER_DB_RESOURCE_HOST" in os.environ:
+        db_host = os.environ["USER_DB_RESOURCE_HOST"]
+
+    if "USER_DB_RESOURCE_PORT" in os.environ:
+        db_port = int(os.environ["USER_DB_RESOURCE_PORT"])
+
     return pg8000.connect(user="postgres", password="postgres",
-                          database=database,
-                          port=int(os.environ["USER_DB_RESOURCE_PORT"]),
-                          host=os.environ["USER_DB_RESOURCE_HOST"])
+                          database=database, host=db_host, port=db_port)
 
 def setup():
     try:

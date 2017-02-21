@@ -8,40 +8,103 @@ The Tools
 
 Tools we'll be using:
 
-1. [docker](https://www.docker.com/)
-2. [docker-compose](https://docs.docker.com/compose/)
-3. [envoy](https://lyft.github.io/envoy/)
+1. [minikube](https://github.com/kubernetes/minikube)
+2. [envoy](https://lyft.github.io/envoy/)
 
-You'll need to get `docker` and `docker-compose` installed (Mac users, see below). You do _not_ need to install `envoy` though! It will magically Just Happen as we build containers out.
-
-MAC USERS TAKE NOTE
--------------------
-
-If (like me) you're on a Mac, the Docker driver matters. I've been using the `xhyve` driver because I don't feel like installing VirtualBox on my Mac, but there's an issue with this: the `xhyve` driver doesn't do the right thing with mounting host files in the container. 
-
-In the Official Envoy Examples, the `envoy` config files are mounted in containers, just to make things easier when tweaking `envoy` configs. We don't do that in this walkthrough, because it doesn't work on my Mac.
+You'll need to get Minikube installed before starting. You do _not_ need to install `envoy` though! It will magically Just Happen as we build containers out.
 
 The Process
 -----------
 
-We're going to work with a very, very simple application. We've broken the process up into steps -- to follow along, you'll go through each step by looking at the `README.md` in that step's directory.
+We're going to work with a very, very simple application: a simple Flask app that allows creating users, then reading them back.
 
-So let's get started!
+Step 0: Minikube
+================
 
-Step 0: The Docker Machine
-==========================
+First we need to start Minikube. On a Mac for your first startup, you need to decide if you're going to use the VirtualBox driver for Minikube, or the `xhyve` driver. I use `xhyve`:
 
-We'll use a `docker-machine` called "esteps" for this example, so let's get that set up. On my Mac, that's
+```minikube start --vm-driver xhyve```
+
+Once minikube is started, run
+
+```eval $(minikube docker-env)```
+
+to get hooked up to the Minikube Docker daemon (which we'll be using when we build Docker images later).
+
+Step 1: Basic Flask App
+=======================
+
+Start the Postgres and `usersvc` containers:
 
 ```
-docker-machine create --driver xhyve esteps
-eval $(docker-machine env esteps)
+sh postgres/up.sh
+sh usersvc/up.sh
 ```
 
-The `xhyve` driver is specific to the Mac; Linux users should drop the `--driver` parameter.
+and then you should be able to check things out:
 
-Step 1: Postgres and Docker and Flask, oh my!
-=============================================
+```
+curl $(minikube service --url usersvc)/user/health
+```
 
-We'll start by using `docker-compose` to create an application with a Flask front end to a Postgres database. Check it out in `STEP-1/README.md`.
+should show you something like
+
+```
+{ 
+  "hostname": "usersvc-1941676296-zlrt2",
+  "msg": "user health check OK",
+  "ok": true,
+  "resolvedname": "172.17.0.10" 
+}
+```
+
+Next up we can try saving and retrieving a user:
+
+```
+curl -X PUT \
+     -H "Content-Type: application/json" \
+     -d '{ "fullname": "Alice", "password": "alicerules" }' \
+     $(minikube service --url usersvc)/user/alice
+```
+
+This should give us a user record for Alice, including her UUID but not her password:
+
+```
+{
+  "fullname": "Alice",
+  "hostname": "usersvc-1941676296-zlrt2",
+  "ok": true,
+  "resolvedname": "172.17.0.10",
+  "uuid": "44FD5687B15B4AF78753E33E6A2B033B" 
+}
+```
+
+and we should be able to read the user back (sans password again) with
+
+```
+curl $(minikube service --url usersvc)/user/alice
+```
+
+Step 2: Enter Envoy
+===================
+
+Start the `edge-envoy` container:
+
+```
+sh edge-envoy/up.sh
+```
+
+then drop the `usersvc` container and replace it with the `usersvc2` container:
+
+```
+sh usersvc/down.sh
+sh usersvc2/up.sh
+```
+
+and now going through Envoy should work:
+
+```
+curl $(minikube service --url edge-envoy)/user/health
+curl $(minikube service --url edge-envoy)/user/alice
+```
 

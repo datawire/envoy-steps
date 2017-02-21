@@ -2,6 +2,7 @@
 
 import logging
 import os
+import socket
 import time
 import uuid
 
@@ -12,6 +13,9 @@ pg8000.paramstyle = 'named'
 
 logPath = "/tmp/flasklog"
 
+MyHostName = socket.gethostname()
+MyResolvedName = socket.gethostbyname(socket.gethostname())
+
 logging.basicConfig(
     filename=logPath,
     level=logging.DEBUG, # if appDebug else logging.INFO,
@@ -19,7 +23,7 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S"
 )
 
-logging.info("esteps-user initializing")
+logging.info("esteps-user initializing on %s (resolved %s)" % (MyHostName, MyResolvedName))
 
 app = Flask(__name__)
 
@@ -36,6 +40,8 @@ class RichStatus (object):
     def __init__(self, ok, **kwargs):
         self.ok = ok
         self.info = kwargs
+        self.info['hostname'] = MyHostName
+        self.info['resolvedname'] = MyResolvedName
 
     # Remember that __getattr__ is called only as a last resort if the key
     # isn't a normal attr.
@@ -72,10 +78,17 @@ class RichStatus (object):
         return RichStatus(True, **kwargs)
 
 def get_db(database):
+    db_host = "postgres"
+    db_port = 5432
+
+    if "USER_DB_RESOURCE_HOST" in os.environ:
+        db_host = os.environ["USER_DB_RESOURCE_HOST"]
+
+    if "USER_DB_RESOURCE_PORT" in os.environ:
+        db_port = int(os.environ["USER_DB_RESOURCE_PORT"])
+
     return pg8000.connect(user="postgres", password="postgres",
-                          database=database,
-                          port=int(os.environ["USER_DB_RESOURCE_PORT"]),
-                          host=os.environ["USER_DB_RESOURCE_HOST"])
+                          database=database, host=db_host, port=db_port)
 
 def setup():
     try:

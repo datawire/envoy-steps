@@ -12,5 +12,3 @@ spec:
     port: 80
   selector:
     service: usersvc
-status:
-  loadBalancer: {}
