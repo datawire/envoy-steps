@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: usersvc-sds
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: usersvc-sds
+    spec:
+      containers:
+      - name: usersvc-sds
+        image: usersvc-sds:step2
+        resources: {}
+      restartPolicy: Always
+status: {}
