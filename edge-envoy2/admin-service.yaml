@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    service: edge-envoy-admin
+  name: edge-envoy-admin
+spec:
+  type: NodePort
+  ports:
+  - name: edge-envoy-admin
+    port: 8001
+    targetPort: 8001
+  selector:
+    service: edge-envoy-admin
