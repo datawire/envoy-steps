@@ -199,6 +199,12 @@ def handle_user(username):
     return jsonify(rc.toDict())
 
 @app.route('/user/health')
+def healthcheck():
+    rc = RichStatus.OK(msg="user health check OK")
+
+    return jsonify(rc.toDict())
+
+@app.route('/')
 def root():
     rc = RichStatus.OK(msg="user health check OK")
 

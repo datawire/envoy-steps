@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: usersvc
-        image: usersvc:step1      
+        image: gcr.io/datawireio/usersvc:step1      
         resources: {}
       restartPolicy: Always
 status: {}
