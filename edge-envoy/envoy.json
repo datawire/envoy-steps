@@ -48,7 +48,12 @@
         "type": "strict_dns",
         "service_name": "usersvc",
         "lb_type": "round_robin",
-        "features": "http2"
+        "features": "http2",
+        "hosts": [
+          {
+            "url": "tcp://usersvc:80"
+          }
+        ]
       }
     ]
   }

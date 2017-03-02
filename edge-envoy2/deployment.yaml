@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: edge-envoy
-        image: edge-envoy:step2
+        image: edge-envoy:step3
         ports:
         - containerPort: 80
           protocol: TCP

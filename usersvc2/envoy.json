@@ -45,7 +45,7 @@
       {
         "name": "local_service",
         "connect_timeout_ms": 250,
-        "type": "strict_dns",
+        "type": "static",
         "lb_type": "round_robin",
         "hosts": [
           {
