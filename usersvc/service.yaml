@@ -6,7 +6,7 @@ metadata:
     service: usersvc
   name: usersvc
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - name: usersvc
     port: 5000

@@ -14,10 +14,11 @@ LABEL PROJECT_REPO_URL         = "git@github.com:datawire/snc-ident.git" \
 # NOTE: If you don't know what you're doing, it's probably a mistake to 
 # blindly hack up this file.
 
-# We need curl and pip.
+# We need curl, pip, and dnsutils (for nslookup).
 RUN apt-get update && apt-get -q install -y \
     curl \
-    python-pip
+    python-pip \
+    dnsutils
 
 # Set WORKDIR to /application which is the root of all our apps then COPY 
 # only requirements.txt to avoid screwing up Docker caching and causing a

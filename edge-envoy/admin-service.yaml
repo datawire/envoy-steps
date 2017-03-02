@@ -6,10 +6,10 @@ metadata:
     service: edge-envoy-admin
   name: edge-envoy-admin
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - name: edge-envoy-admin
     port: 8001
     targetPort: 8001
   selector:
-    service: edge-envoy-admin
+    service: edge-envoy
