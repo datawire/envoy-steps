@@ -4,4 +4,3 @@ sh ${DIR}/build.sh
 
 kubectl create -f ${DIR}/deployment.yaml
 kubectl create -f ${DIR}/service.yaml
-kubectl create -f ${DIR}/ingress.yaml

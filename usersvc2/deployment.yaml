@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: usersvc
-        image: usersvc:step2
+        image: dwflynn/usersvc:step2
         resources: {}
       restartPolicy: Always
 status: {}
