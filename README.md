@@ -108,3 +108,22 @@ curl $(minikube service --url edge-envoy)/user/health
 curl $(minikube service --url edge-envoy)/user/alice
 ```
 
+Step 3: Scaling the App
+=======================
+
+We can scale the app pretty simply:
+
+```
+kubectl scale --replicas=3 deployment/usersvc
+```
+
+but that will reveal that the DNS discovery we've been using so far won't work. We need to bring Envoy's Service Discovery Service into play:
+
+```
+sh usersvc-sds/up.sh
+sh edge-envoy/down.sh
+sh edge-envoy2/up.sh
+```
+
+and once that's done, you'll be able to see requests cycling through all the `usersvc` endpoints.
+
