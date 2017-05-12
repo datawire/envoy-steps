@@ -3,8 +3,8 @@
 FROM dwflynn/envoy-debug:20170501
 
 MAINTAINER Datawire <flynn@datawire.io>
-LABEL PROJECT_REPO_URL         = "git@github.com:datawire/snc-ident.git" \
-      PROJECT_REPO_BROWSER_URL = "https://github.com/datawire/snc-ident \
+LABEL PROJECT_REPO_URL         = "git@github.com:datawire/envoy-steps.git" \
+      PROJECT_REPO_BROWSER_URL = "https://github.com/datawire/envoy-steps" \
       DESCRIPTION              = "Simple Test User Service" \
       VENDOR                   = "Datawire" \
       VENDOR_URL               = "https://datawire.io/"
