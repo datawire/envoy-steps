@@ -1,5 +1,6 @@
 # Base our image on the latest Envoy image.
-FROM lyft/envoy:latest
+#FROM lyft/envoy:latest
+FROM dwflynn/envoy-debug:20170501
 
 MAINTAINER Datawire <flynn@datawire.io>
 LABEL PROJECT_REPO_URL         = "git@github.com:datawire/snc-ident.git" \
