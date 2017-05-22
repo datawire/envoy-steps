@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   creationTimestamp: null
-  name: edge-envoy
+  name: usersvc
 spec:
   replicas: 1
   strategy: {}
@@ -10,17 +10,11 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        service: edge-envoy
-        # service: edge-envoy-admin
+        service: usersvc
     spec:
       containers:
-      - name: edge-envoy
-        image: edge-envoy:step3
-        ports:
-        - containerPort: 80
-          protocol: TCP
-        - containerPort: 8001
-          protocol: TCP
+      - name: usersvc
+        image: {{REGISTRY}}usersvc:step2
         resources: {}
       restartPolicy: Always
 status: {}

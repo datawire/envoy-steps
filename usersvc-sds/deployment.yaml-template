@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   creationTimestamp: null
-  name: usersvc
+  name: usersvc-sds
 spec:
   replicas: 1
   strategy: {}
@@ -10,11 +10,11 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        service: usersvc
+        service: usersvc-sds
     spec:
       containers:
-      - name: usersvc
-        image: usersvc:step1      
+      - name: usersvc-sds
+        image: {{REGISTRY}}usersvc-sds:step2
         resources: {}
       restartPolicy: Always
 status: {}
