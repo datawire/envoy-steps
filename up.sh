@@ -9,7 +9,9 @@ if [ -z "$DIR" ]; then
     exit 1
 fi
 
-( cd "${DIR}" && sh build.sh )
+if [ -f "${DIR}/build.sh" ]; then
+    ( cd "${DIR}" && sh build.sh )
+fi
 
 kubectl create -f "${DIR}/deployment.yaml"
 kubectl create -f "${DIR}/service.yaml"
