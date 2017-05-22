@@ -1,10 +1,10 @@
 #!/bin/bash
 
-set -ex
+set -e
 
 DIR=$1
 
-if [ -n "$DIR" ]; then
+if [ -z "$DIR" ]; then
     echo "Usage: $(basename $0) dir" >&2
     exit 1
 fi
