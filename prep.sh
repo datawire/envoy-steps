@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -ex
+set -e
 
 REGISTRY="$1"
 
