@@ -11,9 +11,7 @@ fi
 
 if [ "$REGISTRY" = "-" ]; then
     REGISTRY=
-fi
-
-if [ $(echo $REGISTRY | egrep -c '/$') -eq 0 ]; then
+elif [ $(echo $REGISTRY | egrep -c '/$') -eq 0 ]; then
     REGISTRY="$REGISTRY/"
 fi
 
