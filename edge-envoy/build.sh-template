@@ -1,0 +1,8 @@
+DIR=$(dirname $0)
+
+docker build -t edge-envoy:step2 ${DIR}
+
+if [ -n "{{REGISTRY}}" ]; then
+    docker tag edge-envoy:step2 {{REGISTRY}}edge-envoy:step2
+    docker push {{REGISTRY}}edge-envoy:step2
+fi

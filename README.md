@@ -31,14 +31,26 @@ Once minikube is started, run
 
 to get hooked up to the Minikube Docker daemon (which we'll be using when we build Docker images later).
 
+To prep everything for Minikube, run
+
+```
+bash prep.sh -
+```
+
+Should you want to clean everything up when done, use
+
+```
+bash clean.sh
+```
+
 Step 1: Basic Flask App
 =======================
 
 Start the Postgres and `usersvc` containers:
 
 ```
-sh postgres/up.sh
-sh usersvc/up.sh
+bash up.sh postgres
+bash up.sh usersvc
 ```
 
 and then you should be able to check things out:
@@ -91,14 +103,14 @@ Step 2: Enter Envoy
 Start the `edge-envoy` container:
 
 ```
-sh edge-envoy/up.sh
+bash up.sh edge-envoy
 ```
 
 then drop the `usersvc` container and replace it with the `usersvc2` container:
 
 ```
-sh usersvc/down.sh
-sh usersvc2/up.sh
+bash down.sh usersvc
+bash up.sh usersvc2
 ```
 
 and now going through Envoy should work:
@@ -120,9 +132,9 @@ kubectl scale --replicas=3 deployment/usersvc
 but that will reveal that the DNS discovery we've been using so far won't work. We need to bring Envoy's Service Discovery Service into play:
 
 ```
-sh usersvc-sds/up.sh
-sh edge-envoy/down.sh
-sh edge-envoy2/up.sh
+bash up.sh usersvc-sds
+bash down.sh edge-envoy
+bash up.sh edge-envoy2
 ```
 
 and once that's done, you'll be able to see requests cycling through all the `usersvc` endpoints.
