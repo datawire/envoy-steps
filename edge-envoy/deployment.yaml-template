@@ -1,10 +1,13 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   creationTimestamp: null
   name: edge-envoy
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      service: edge-envoy
   strategy: {}
   template:
     metadata:
